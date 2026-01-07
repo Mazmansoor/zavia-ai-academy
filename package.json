@@ -1,23 +1,36 @@
 {
-  "name": "strategic-ai-academy",
+  "name": "strategic-ai-academy-nextjs",
+  "version": "2.0.0",
   "private": true,
-  "version": "1.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "recharts": "^2.10.3"
+    "next": "^14.2.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "next-auth": "^4.24.0",
+    "@vercel/postgres": "^0.9.0",
+    "stripe": "^14.21.0",
+    "@stripe/stripe-js": "^3.0.0",
+    "recharts": "^2.12.0",
+    "bcryptjs": "^2.4.3",
+    "zod": "^3.22.0",
+    "lucide-react": "^0.309.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.32",
+    "typescript": "^5.4.0",
+    "@types/node": "^20.11.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/bcryptjs": "^2.4.6",
     "tailwindcss": "^3.4.0",
-    "vite": "^5.0.8"
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.0"
   }
 }

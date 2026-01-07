@@ -1,184 +1,180 @@
-# Strategic AI Academy
+# Strategic AI Academy - Next.js Full-Stack Platform
 
-> The Anti-Bootcamp: Compressed, rigorous AI training that builds judgment—not just tool knowledge.
+🎓 **Complete learning management system with:**
+- ✅ User authentication (NextAuth.js)
+- ✅ PostgreSQL database (Vercel Postgres)
+- ✅ Payment processing (Stripe)
+- ✅ Course enrollment & progress tracking
+- ✅ Diagnostic assessment with radar chart visualization
+- ✅ Responsive UI (Tailwind CSS + Lucide icons)
 
-A comprehensive learning platform designed to take professionals from AI fundamentals to mastery through systematic, hands-on training across 5 core domains.
+## 🚀 Quick Start
 
-🔗 **Live Demo:** [strategic-ai-academy.vercel.app](https://strategic-ai-academy.vercel.app)
-
-## 📋 Overview
-
-Strategic AI Academy is an interactive learning platform that provides:
-
-- **Diagnostic Assessment**: 15-minute skill evaluation across AI domains
-- **Personalized Learning Paths**: Recommendations based on your competency gaps
-- **Systematic Progression**: Foundation → Application → Systems → Mastery
-- **5 Core AI Domains**: Comprehensive coverage of modern AI capabilities
-
-## ✨ Features
-
-### 🎯 Interactive Diagnostic Quiz
-- 6 carefully designed questions across all AI domains
-- Instant feedback with detailed explanations
-- Real-time progress tracking
-- Email capture for results delivery
-
-### 📊 Competency Visualization
-- Radar chart showing domain-specific scores
-- Overall competency level assessment
-- Personalized learning recommendations
-- Performance breakdown by domain
-
-### 📚 Course Catalog
-- **LLM Fundamentals**: How language models work—not just surface prompting
-- **Prompt Engineering**: Systematic prompt design—not tips and tricks
-- **Agentic Systems**: Building AI that takes autonomous action
-- **RAG & Knowledge**: Connecting AI to your data intelligently
-- **Strategic AI**: Making AI decisions that create value
-
-### 🎓 4-Level Progression System
-Each domain offers 4 competency levels:
-- **Foundation** (6-10 hours): Core concepts and fundamentals
-- **Application** (10-14 hours): Practical implementation skills
-- **Systems** (14-18 hours): Building production systems
-- **Mastery** (18-24 hours): Expert-level capabilities
-
-## 🛠️ Tech Stack
-
-- **Frontend Framework**: React 18
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **Charts**: Recharts
-- **Deployment**: Vercel
-- **Version Control**: Git/GitHub
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 18+ and npm
-- Git
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Mazmansoor/Strategic-AI-Academy.git
-   cd Strategic-AI-Academy
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start development server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open your browser**
-   ```
-   http://localhost:5173
-   ```
-
-### Build for Production
+### 1. Install Dependencies
 
 ```bash
-npm run build
-npm run preview
+npm install
 ```
+
+### 2. Set Up Environment Variables
+
+Copy `.env.example` to `.env.local`:
+
+```bash
+cp .env.example .env.local
+```
+
+### 3. Set Up Vercel Postgres Database
+
+1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
+2. Select your project or create a new one
+3. Go to Storage tab
+4. Create a new Postgres database
+5. Copy the connection strings to your `.env.local`
+
+### 4. Initialize Database
+
+Run the schema and seed files:
+
+```bash
+# You can run these in Vercel Postgres Query Editor
+# Or use the Vercel CLI:
+vercel env pull .env.local
+```
+
+Then execute the SQL files:
+- `src/lib/db/schema.sql` - Creates tables
+- `src/lib/db/seed.sql` - Populates initial data
+
+### 5. Configure NextAuth
+
+Generate a secret for NextAuth:
+
+```bash
+openssl rand -base64 32
+```
+
+Add it to `.env.local`:
+```
+NEXTAUTH_SECRET=your_generated_secret
+```
+
+### 6. Set Up Stripe
+
+1. Go to [Stripe Dashboard](https://dashboard.stripe.com/)
+2. Get your API keys from Developers → API keys
+3. Add to `.env.local`:
+   ```
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+   STRIPE_SECRET_KEY=sk_test_...
+   ```
+
+### 7. Run Development Server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000)
 
 ## 📁 Project Structure
 
 ```
-Strategic-AI-Academy/
+nextjs-app/
 ├── src/
-│   ├── App.jsx              # Main application component
-│   ├── main.jsx             # Application entry point
-│   └── index.css            # Global styles
-├── public/                  # Static assets
-├── index.html              # HTML template
-├── package.json            # Dependencies and scripts
-├── vite.config.js          # Vite configuration
-├── tailwind.config.js      # Tailwind CSS configuration
-└── postcss.config.js       # PostCSS configuration
+│   ├── app/                    # App Router pages
+│   │   ├── api/               # API routes
+│   │   ├── (auth)/           # Auth pages (login, signup)
+│   │   ├── dashboard/        # User dashboard
+│   │   ├── courses/          # Course pages
+│   │   └── layout.tsx        # Root layout
+│   ├── components/            # React components
+│   ├── lib/                   # Utilities
+│   │   ├── db/               # Database functions
+│   │   ├── auth.ts           # NextAuth config
+│   │   └── stripe.ts         # Stripe config
+│   └── types/                 # TypeScript types
+├── public/                    # Static files
+└── package.json
 ```
 
-## 🎨 Key Components
+## 🔑 Key Features
 
-### Landing Page
-- Hero section with clear value proposition
-- Feature highlights (Strategic Focus, Systematic Progression, Compressed Learning)
-- Domain overview cards
-- Call-to-action buttons
+- ✅ Next.js 14 with App Router
+- ✅ TypeScript
+- ✅ Tailwind CSS
+- ✅ Vercel Postgres Database
+- ✅ NextAuth.js Authentication
+- ✅ Stripe Payment Integration
+- ✅ Course Progress Tracking
+- ✅ Diagnostic Assessment
+- ✅ User Dashboard
 
-### Diagnostic Assessment
-- Question-by-question progression
-- Multiple choice with instant feedback
-- Progress bar and domain tracking
-- Explanation after each answer
+## 📊 Database Schema
 
-### Results Dashboard
-- Overall score display
-- Competency level assignment
-- Radar chart visualization
-- Top 3 recommended learning areas
-
-### Course Platform
-- Complete catalog of all 5 domains
-- Track-by-track breakdown
-- Visual indication of locked/unlocked content
-- Pricing and trial CTAs
-
-## 📊 Assessment Scoring
-
-- **Mastery Level**: 86%+ correct
-- **Systems Level**: 66-85% correct
-- **Application Level**: 41-65% correct
-- **Foundation Level**: 0-40% correct
+### Tables:
+- `users` - User accounts
+- `diagnostic_results` - Quiz results
+- `courses` - Course information
+- `course_tracks` - Individual course levels
+- `enrollments` - User course enrollments
+- `user_progress` - Module completion tracking
+- `subscriptions` - Stripe subscriptions
+- `payments` - Payment records
 
 ## 🌐 Deployment
 
-The application is deployed on Vercel with automatic deployments from the `main` branch.
+### Deploy to Vercel
 
-**Production URL**: https://strategic-ai-academy.vercel.app
+```bash
+vercel
+```
 
-### Deploy Your Own
+Or connect your GitHub repo to Vercel for automatic deployments.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Mazmansoor/Strategic-AI-Academy)
+### Environment Variables on Vercel
 
-## 🤝 Contributing
+Make sure to add all environment variables from `.env.local` to your Vercel project settings.
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## 📝 Development Notes
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### Adding a New API Route
 
-## 📝 License
+Create a file in `src/app/api/your-route/route.ts`:
 
-This project is open source and available under the [MIT License](LICENSE).
+```typescript
+import { NextResponse } from 'next/server';
 
-## 👤 Author
+export async function GET() {
+  return NextResponse.json({ message: 'Hello' });
+}
+```
 
-**Mazmansoor**
+### Protected Routes
 
-- GitHub: [@Mazmansoor](https://github.com/Mazmansoor)
+Use NextAuth session in server components:
 
-## 🙏 Acknowledgments
+```typescript
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 
-- Built with React and Vite
-- Styled with Tailwind CSS
-- Charts powered by Recharts
-- Deployed on Vercel
+const session = await getServerSession(authOptions);
+if (!session) {
+  redirect('/login');
+}
+```
 
-## 📧 Contact
+## 🛠️ Tech Stack
 
-For questions or feedback, please open an issue on GitHub.
+- **Framework**: Next.js 14
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Database**: Vercel Postgres
+- **Auth**: NextAuth.js
+- **Payments**: Stripe
+- **Charts**: Recharts
+- **Deployment**: Vercel
 
----
+## 📧 Support
 
-**Built with ❤️ for AI learners who want judgment, not just tools.**
+For issues or questions, create an issue on GitHub.
