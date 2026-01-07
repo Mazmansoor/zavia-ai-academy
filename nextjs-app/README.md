@@ -1,6 +1,12 @@
-# Strategic AI Academy - Next.js Full-Stack Version
+# Strategic AI Academy - Next.js Full-Stack Platform
 
-This is the complete full-stack version with database, authentication, and Stripe integration.
+🎓 **Complete learning management system with:**
+- ✅ User authentication (NextAuth.js)
+- ✅ PostgreSQL database (Vercel Postgres)
+- ✅ Payment processing (Stripe)
+- ✅ Course enrollment & progress tracking
+- ✅ Diagnostic assessment with radar chart visualization
+- ✅ Responsive UI (Tailwind CSS + Lucide icons)
 
 ## 🚀 Quick Start
 
