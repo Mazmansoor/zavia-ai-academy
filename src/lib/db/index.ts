@@ -126,11 +126,13 @@ export async function updateModuleProgress(
   moduleNumber: number,
   completed: boolean
 ) {
+  const completedAt = completed ? new Date().toISOString() : null;
+
   const result = await sql`
     INSERT INTO user_progress (user_id, course_id, track_level, module_number, completed, completed_at)
-    VALUES (${userId}, ${courseId}, ${trackLevel}, ${moduleNumber}, ${completed}, ${completed ? new Date() : null})
+    VALUES (${userId}, ${courseId}, ${trackLevel}, ${moduleNumber}, ${completed}, ${completedAt})
     ON CONFLICT (user_id, course_id, track_level, module_number)
-    DO UPDATE SET completed = ${completed}, completed_at = ${completed ? new Date() : null}
+    DO UPDATE SET completed = ${completed}, completed_at = ${completedAt}
     RETURNING *
   `;
   return result.rows[0];
