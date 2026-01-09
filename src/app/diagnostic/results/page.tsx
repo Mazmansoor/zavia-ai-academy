@@ -3,15 +3,55 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
-import { domains } from '@/lib/constants';
 
 interface DiagnosticResults {
-  domainScores: Record<string, number>;
-  overallScore: number;
-  level: string;
-  recommendations: string[];
+  archetype: string;
+  answerPattern: Record<number, number>;
+  totalQuestions: number;
 }
+
+const archetypes = {
+  'systems-thinker': {
+    title: 'The Systems Thinker',
+    subtitle: 'Rare',
+    description: 'You understand both capabilities and limitations. You recognize when AI output is plausible but wrong. You think in terms of failure modes, not just success cases.',
+    misjudgment: 'Your risk: overengineering. You may delay decisions while seeking certainty that does not exist.',
+    recommendation: 'Systems',
+    note: 'You are equipped to design AI workflows that survive contact with reality. Your challenge is knowing when simplicity serves better than sophistication.'
+  },
+  'systematic-skeptic': {
+    title: 'The Systematic Skeptic',
+    subtitle: 'Methodical',
+    description: 'You question AI output instinctively. You recognize that confidence is not accuracy. You have developed operational skepticism.',
+    misjudgment: 'What you consistently miss: the boundary between healthy skepticism and analysis paralysis. You distrust AI but lack frameworks for when to trust it conditionally.',
+    recommendation: 'Application',
+    note: 'You need structured methods for evaluation—not more doubt, but better tools for calibrating doubt.'
+  },
+  'strategic-non-practitioner': {
+    title: 'The Strategic Non-Practitioner',
+    subtitle: 'Conceptually Sound',
+    description: 'You understand AI strategy. You can articulate value propositions and identify use cases. But your judgments are theoretical.',
+    misjudgment: 'What you consistently miss: the distance between plausible and correct. You approve AI decisions without the ground truth to verify them.',
+    recommendation: 'Foundation',
+    note: 'You need hands-on pattern recognition before your strategic thinking becomes operationally useful.'
+  },
+  'tool-fluent-novice': {
+    title: 'The Tool-Fluent Novice',
+    subtitle: 'Competent with Interfaces',
+    description: 'You know how to use AI tools. You can generate output quickly. But you lack the judgment to evaluate that output independently.',
+    misjudgment: 'What you consistently miss: when AI is confidently wrong. You mistake fluency for competence. You delegate evaluation to the tool itself.',
+    recommendation: 'Foundation',
+    note: 'Your fluency makes you dangerous. You move fast but cannot detect when you are moving in the wrong direction.'
+  },
+  'overconfident-delegator': {
+    title: 'The Overconfident Delegator',
+    subtitle: 'High Risk',
+    description: 'You delegate judgment to AI without verification systems. You assume output is correct unless proven otherwise. You optimize for speed, not accuracy.',
+    misjudgment: 'What you consistently miss: almost everything. You do not yet recognize what good judgment looks like when evaluating AI output.',
+    recommendation: 'Foundation',
+    note: 'You are operating with false confidence. The gap between what you approve and what you understand is significant and growing.'
+  }
+};
 
 export default function DiagnosticResultsPage() {
   const router = useRouter();
@@ -28,98 +68,74 @@ export default function DiagnosticResultsPage() {
 
   if (!results) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-4xl mb-4">Loading...</div>
-        </div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-sm text-gray-400">Loading...</div>
       </div>
     );
   }
 
-  const radarData = domains.map(domain => ({
-    domain: domain.split(' ')[0],
-    score: results.domainScores[domain] || 0
-  }));
+  const archetype = archetypes[results.archetype as keyof typeof archetypes];
+
+  if (!archetype) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-sm text-gray-600">Unable to determine archetype</div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-2xl p-12">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Your AI Competency Results</h1>
-            <div className="inline-block bg-blue-100 px-8 py-4 rounded-xl">
-              <div className="text-5xl font-bold text-blue-600 mb-2">
-                {results.overallScore}%
-              </div>
-              <div className="text-xl text-gray-700">Overall Score</div>
-              <div className="text-2xl font-semibold text-gray-900 mt-2">
-                {results.level} Level
-              </div>
-            </div>
-          </div>
+    <div className="min-h-screen bg-white">
+      <div className="max-w-3xl mx-auto px-8 py-24">
+        {/* Archetype Title */}
+        <div className="mb-16">
+          <div className="text-sm text-gray-400 mb-4">{archetype.subtitle}</div>
+          <h1 className="text-4xl font-light text-gray-900 mb-8 leading-tight">
+            {archetype.title}
+          </h1>
+        </div>
 
-          {/* Radar Chart */}
-          <div className="mb-12">
-            <h3 className="text-2xl font-semibold mb-6 text-center">
-              Competency by Domain
-            </h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <RadarChart data={radarData}>
-                <PolarGrid />
-                <PolarAngleAxis dataKey="domain" />
-                <PolarRadiusAxis domain={[0, 100]} />
-                <Radar
-                  name="Your Score"
-                  dataKey="score"
-                  stroke="#3B82F6"
-                  fill="#3B82F6"
-                  fillOpacity={0.5}
-                />
-              </RadarChart>
-            </ResponsiveContainer>
-          </div>
+        {/* Description */}
+        <div className="mb-16 pb-16 border-b border-gray-200">
+          <p className="text-lg text-gray-700 leading-relaxed mb-8">
+            {archetype.description}
+          </p>
+        </div>
 
-          {/* Recommendations */}
-          {results.recommendations.length > 0 && (
-            <div className="bg-blue-50 rounded-xl p-8 mb-8">
-              <h3 className="text-2xl font-semibold mb-4">
-                Recommended Learning Path
-              </h3>
-              <p className="text-gray-700 mb-4">
-                Based on your results, start with these domains:
-              </p>
-              <div className="space-y-3">
-                {results.recommendations.map((domain, i) => (
-                  <div key={i} className="bg-white p-4 rounded-lg">
-                    <div className="font-semibold text-gray-900">
-                      {i + 1}. {domain}
-                    </div>
-                    <div className="text-sm text-gray-600 mt-1">
-                      Score: {results.domainScores[domain]}%
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+        {/* What You Miss */}
+        <div className="mb-16 pb-16 border-b border-gray-200">
+          <h2 className="text-xl font-medium text-gray-900 mb-6">What You Consistently Miss</h2>
+          <p className="text-base text-gray-600 leading-relaxed">
+            {archetype.misjudgment}
+          </p>
+        </div>
 
-          {/* Actions */}
-          <div className="text-center space-y-4">
+        {/* Recommendation */}
+        <div className="mb-16 pb-16 border-b border-gray-200">
+          <h2 className="text-xl font-medium text-gray-900 mb-6">Where to Begin</h2>
+          <p className="text-base text-gray-600 leading-relaxed mb-6">
+            {archetype.note}
+          </p>
+          <p className="text-sm text-gray-500">
+            Recommended starting level: <span className="text-gray-900 font-medium">{archetype.recommendation}</span>
+          </p>
+        </div>
+
+        {/* Actions */}
+        <div className="space-y-6">
+          <Link
+            href="/courses"
+            className="inline-block border-2 border-gray-900 text-gray-900 px-8 py-3 text-sm font-medium hover:bg-gray-900 hover:text-white transition-colors"
+          >
+            View Capabilities
+          </Link>
+          <div>
             <Link
-              href="/courses"
-              className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 font-semibold text-lg transition-colors"
+              href="/"
+              className="text-sm text-gray-500 hover:text-gray-900 border-b border-gray-300 hover:border-gray-900 transition-colors"
             >
-              Start Learning Now
+              Return Home
             </Link>
-            <div>
-              <Link
-                href="/"
-                className="text-blue-600 hover:text-blue-700 font-medium"
-              >
-                Back to Home
-              </Link>
-            </div>
           </div>
         </div>
       </div>
