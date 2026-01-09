@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { authOptions } from '@/lib/auth';
 import { getUserEnrollments } from '@/lib/db';
+import { sql } from '@vercel/postgres';
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -12,6 +13,20 @@ export default async function DashboardPage() {
   }
 
   const enrollments = await getUserEnrollments(parseInt(session.user.id));
+
+  // Check if user has purchased the primer
+  let hasPrimerAccess = false;
+  try {
+    const primerCheck = await sql`
+      SELECT id FROM primer_purchases
+      WHERE user_id = ${parseInt(session.user.id)}
+      LIMIT 1
+    `;
+    hasPrimerAccess = primerCheck.rows.length > 0;
+  } catch (error) {
+    // Gracefully handle if table doesn't exist yet
+    console.error('Primer access check failed:', error);
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -52,6 +67,25 @@ export default async function DashboardPage() {
             Your enrolled capabilities
           </p>
         </div>
+
+        {/* Primer Access */}
+        {hasPrimerAccess && (
+          <div className="mb-24 pb-16 border-b border-gray-200">
+            <h2 className="text-xl font-light text-gray-900 mb-8">Your Purchased Content</h2>
+            <div className="border-t border-gray-200 pt-8">
+              <div className="mb-6">
+                <h3 className="text-2xl font-light text-gray-900 mb-2">Strategic AI Judgment Primer</h3>
+                <p className="text-sm text-gray-500">90-minute deep dive · Lifetime access</p>
+              </div>
+              <Link
+                href="/primer/content"
+                className="inline-block text-sm text-gray-900 border-b border-gray-900 hover:border-gray-400 transition-colors"
+              >
+                Access Content
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* Enrolled Capabilities */}
         <div className="space-y-12">

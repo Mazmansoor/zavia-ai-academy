@@ -14,6 +14,7 @@ export const PRICE_IDS = {
   application: process.env.STRIPE_PRICE_APPLICATION || '',
   systems: process.env.STRIPE_PRICE_SYSTEMS || '',
   mastery: process.env.STRIPE_PRICE_MASTERY || '',
+  primer: process.env.STRIPE_PRICE_PRIMER || '', // Strategic AI Judgment Primer - $147
 };
 
 export async function createCheckoutSession(params: {
