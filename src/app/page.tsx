@@ -58,12 +58,41 @@ export default function HomePage() {
             When decisions accelerate and intelligence becomes externalized, the question is no longer whether you use AI.
             It is whether you still understand what you are approving.
           </p>
-          <Link
-            href="/diagnostic"
-            className="inline-block border-2 border-gray-900 text-gray-900 px-8 py-3 text-sm font-medium hover:bg-gray-900 hover:text-white transition-colors"
-          >
-            Start Assessment
-          </Link>
+          <div className="flex gap-6 items-center">
+            <Link
+              href="/diagnostic"
+              className="inline-block border-2 border-gray-900 text-gray-900 px-8 py-3 text-sm font-medium hover:bg-gray-900 hover:text-white transition-colors"
+            >
+              Start Assessment
+            </Link>
+            <Link
+              href="/primer"
+              className="text-sm text-gray-600 hover:text-gray-900 border-b border-gray-400 hover:border-gray-900 transition-colors"
+            >
+              90-minute primer →
+            </Link>
+          </div>
+        </div>
+
+        {/* Primer Callout */}
+        <div className="mb-32 border-t border-gray-200 pt-16">
+          <div className="max-w-2xl">
+            <div className="text-sm text-gray-400 mb-4">New: First Paid Product</div>
+            <h2 className="text-2xl font-light text-gray-900 mb-6">Strategic AI Judgment Primer</h2>
+            <p className="text-base text-gray-600 mb-8 leading-relaxed">
+              A 90-minute deep dive into the three failure modes that occur when decision-makers delegate judgment to AI without verification systems. Real case studies. Systematic frameworks. Immediately applicable.
+            </p>
+            <div className="flex items-baseline gap-8 mb-8">
+              <div className="text-3xl font-light text-gray-900">$147</div>
+              <div className="text-sm text-gray-500">One-time payment · Lifetime access</div>
+            </div>
+            <Link
+              href="/primer"
+              className="inline-block border-2 border-gray-900 text-gray-900 px-8 py-3 text-sm font-medium hover:bg-gray-900 hover:text-white transition-colors"
+            >
+              Learn More
+            </Link>
+          </div>
         </div>
 
         {/* Capability Levels */}

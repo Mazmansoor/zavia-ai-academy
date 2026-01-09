@@ -82,6 +82,33 @@ export async function getAllCourses() {
   return result.rows;
 }
 
+export async function getCourseBySlug(slug: string) {
+  const result = await sql`
+    SELECT c.*,
+           json_agg(
+             json_build_object(
+               'id', ct.id,
+               'level', ct.level,
+               'duration', ct.duration,
+               'modules', ct.modules,
+               'price_cents', ct.price_cents,
+               'locked', ct.locked
+             ) ORDER BY
+               CASE ct.level
+                 WHEN 'Foundation' THEN 1
+                 WHEN 'Application' THEN 2
+                 WHEN 'Systems' THEN 3
+                 WHEN 'Mastery' THEN 4
+               END
+           ) as tracks
+    FROM courses c
+    LEFT JOIN course_tracks ct ON c.id = ct.course_id
+    WHERE c.slug = ${slug}
+    GROUP BY c.id
+  `;
+  return result.rows;
+}
+
 // Enrollment queries
 export async function getUserEnrollments(userId: number) {
   const result = await sql`
