@@ -23,6 +23,18 @@ export default function HomePage() {
               Diagnostic
             </Link>
             <Link
+              href="/how-it-works"
+              className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              How It Works
+            </Link>
+            <Link
+              href="/manifesto"
+              className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              Manifesto
+            </Link>
+            <Link
               href="/login"
               className="text-sm text-gray-900 border border-gray-900 px-4 py-2 hover:bg-gray-900 hover:text-white transition-colors"
             >

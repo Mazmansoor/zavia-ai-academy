@@ -28,10 +28,16 @@ export default async function CoursesPage() {
               Diagnostic
             </Link>
             <Link
-              href="/dashboard"
+              href="/how-it-works"
               className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
             >
-              Dashboard
+              How It Works
+            </Link>
+            <Link
+              href="/manifesto"
+              className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              Manifesto
             </Link>
             <Link
               href="/login"
