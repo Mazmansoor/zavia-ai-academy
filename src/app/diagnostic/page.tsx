@@ -1,5 +1,8 @@
 'use client';
 
+// Force dynamic rendering for Firebase pages
+export const dynamic = 'force-dynamic';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
