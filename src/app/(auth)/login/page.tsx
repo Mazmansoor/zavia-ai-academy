@@ -1,5 +1,8 @@
 'use client';
 
+// Force dynamic rendering to prevent static export issues with Firebase
+export const dynamic = 'force-dynamic';
+
 import { useState, useEffect } from 'react';
 import { signInWithEmail, signInWithGoogle } from '@/lib/firebase/auth';
 import { useFirebaseUser } from '@/lib/firebase/hooks';
